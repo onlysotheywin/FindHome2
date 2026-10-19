@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Аптека НаНа - Каталог с фильтрацией</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, 'Segoe UI', 'Roboto', sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fb;
+      color: #1a2c3e;
+    }
+
+    .toppanel {
+      background: #2c5f2d;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 40px;
+      font-size: 13px;
+      flex-wrap: wrap;
+    }
+    .toppanel .col {
+      padding: 4px 0;
+    }
+
+    .topbar {
+      background: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2c5f2d;
+      letter-spacing: 1px;
+    }
+    .tagline {
+      font-size: 12px;
+      color: #7e8c8d;
+      font-weight: normal;
+    }
+    nav {
+      display: flex;
+      gap: 30px;
+    }
+    .nav-group a {
+      text-decoration: none;
+      color: #2c3e50;
+      font-weight: 500;
+      transition: 0.2s;
+      padding-bottom: 5px;
+    }
+    .nav-group a.active, .nav-group a:hover {
+      color: #2c5f2d;
+      border-bottom: 2px solid #2c5f2d;
+    }
+
+    .main-container {
+      display: flex;
+      max-width: 1400px;
+      margin: 30px auto;
+      padding: 0 30px;
+      gap: 30px;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+    .sidebar h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e2e8f0;
+      color: #2c5f2d;
+    }
+    .sidebar-menu {
+      list-style: none;
+    }
+    .sidebar-menu li {
+      margin-bottom: 12px;
+    }
+    .sidebar-menu li a {
+      text-decoration: none;
+      color: #2d3e50;
+      font-weight: 500;
+      display: block;
+      padding: 6px 12px;
+      border-radius: 12px;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .sidebar-menu li a.active, .sidebar-menu li a:hover {
+      background: #e9f5e9;
+      color: #2c5f2d;
+    }
+
+    .catalog-content {
+      flex: 1;
+    }
+
+    .tools-bar {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .search-row {
+      margin-bottom: 15px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 12px 18px;
+      border: 2px solid #e2e8f0;
+      border-radius: 40px;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: #2c5f2d;
+    }
+    .filters-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 15px;
+      align-items: flex-end;
+    }
+    .filter-group {
+      flex: 1;
+      min-width: 150px;
+    }
+    .filter-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #4a5c6c;
+    }
+    .filter-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 30px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      font-size: 14px;
+    }
+    .reset-btn {
+      background: #f1f5f9;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+    .reset-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .top-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .basket-btn {
+      background: #2c5f2d;
+      color: white;
+      padding: 10px 24px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+    }
+    .sort-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .sort-trigger {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 10px 20px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+    .sort-trigger:hover {
+      background: #e2e8f0;
+    }
+    .sort-trigger::after {
+      content: "▼";
+      font-size: 10px;
+    }
+    .sort-menu {
+      position: absolute;
+      top: 45px;
+      right: 0;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      min-width: 210px;
+      z-index: 100;
+      display: none;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+    .sort-menu.show {
+      display: block;
+    }
+    .sort-option {
+      padding: 12px 18px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 14px;
+    }
+    .sort-option:hover {
+      background: #e9f5e9;
+    }
+    .sort-option.active {
+      background: #2c5f2d;
+      color: white;
+    }
+
+    .category-section {
+      margin-bottom: 45px;
+    }
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .category-title {
+      font-size: 26px;
+      font-weight: bold;
+      color: #1f3b2c;
+      border-left: 6px solid #2c5f2d;
+      padding-left: 15px;
+    }
+    .category-slider {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+    }
+    .products-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 25px;
+    }
+    .nav-arrow {
+      width: 48px;
+      height: 48px;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 28px;
+      font-weight: bold;
+      transition: 0.2s;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .nav-arrow:hover:not(.disabled) {
+      background: #2c5f2d;
+      color: white;
+      border-color: #2c5f2d;
+    }
+    .nav-arrow.disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      transition: 0.25s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 28px rgba(0,0,0,0.1);
+    }
+    .product-image {
+      height: 140px;
+      background: linear-gradient(145deg, #eef2f6, #e6eaf0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+    }
+    .product-info {
+      padding: 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .prescription-badge {
+      background: #fef3c7;
+      color: #b45309;
+      font-size: 11px;
+      font-weight: bold;
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+    .product-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1e293b;
+    }
+    .product-description {
+      font-size: 13px;
+      color: #5b6e8c;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+    .price-wrapper {
+      margin-top: auto;
+    }
+    .old-price {
+      font-size: 13px;
+      color: #94a3b8;
+      text-decoration: line-through;
+    }
+    .current-price {
+      font-size: 22px;
+      font-weight: bold;
+      color: #2c5f2d;
+      margin: 6px 0;
+    }
+    .product-actions button {
+      width: 100%;
+      padding: 10px;
+      border-radius: 40px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-cart {
+      background: #2c5f2d;
+      color: white;
+    }
+    .btn-cart:hover {
+      background: #1f4620;
+    }
+    .btn-reserve {
+      background: white;
+      border: 2px solid #2c5f2d;
+      color: #2c5f2d;
+    }
+    .btn-reserve:hover {
+      background: #e9f5e9;
+    }
+
+    footer {
+      background: #1e2a32;
+      color: #ccc;
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 40px;
+      font-size: 13px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    .footer-bottom {
+      background: #0f1720;
+      text-align: center;
+      padding: 12px;
+      color: #8a9bb0;
+      font-size: 12px;
+    }
+    @media (max-width: 900px) {
+      .main-container { flex-direction: column; }
+      .sidebar { width: 100%; }
+      .filters-row { flex-direction: column; }
+      .category-slider { flex-direction: column; }
+      .nav-arrow { transform: rotate(90deg); margin: 5px 0; }
+      .products-grid { order: 2; }
+      .nav-arrow:first-child { order: 1; }
+      .nav-arrow:last-child { order: 3; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="toppanel">
+  <div class="col address">225101, Беларусь, Жабинка, улица Чайковского, 13</div>
+  <div class="col schedule">Пн-Пт с 9:00 до 18:00, Сб-Вс с 10:00 до 17:00</div>
+  <div class="col empty"></div>
+  <div class="col phone-number">+375 (29) 744-27-50</div>
+</header>
+
+<header class="topbar">
+  <div class="logo"> АПТЕКА НаНа
+    <div class="tagline">сеть аптек</div>
+  </div>
+  <nav>
+    <div class="nav-group"><a href="#">Главная</a></div>
+    <div class="nav-group"><a href="#" class="active">Каталог</a></div>
+    <div class="nav-group"><a href="#">Акции</a></div>
+    <div class="nav-group"><a href="#">О нас</a></div>
+  </nav>
+</header>
+
+<div class="main-container">
+  <aside class="sidebar">
+    <h3>Категории</h3>
+    <ul class="sidebar-menu" id="category-menu"></ul>
+  </aside>
+
+  <main class="catalog-content">
+    <div class="top-actions">
+      <a href="#" class="basket-btn" onclick="alert('Корзина (демо)')">🛒 Корзина</a>
+      <div class="sort-dropdown" id="sortDropdown">
+        <div class="sort-trigger" id="sortTrigger">Сортировка: по алфавиту</div>
+        <div class="sort-menu" id="sortMenu">
+          <div class="sort-option" data-sort="name-asc">🔤 По алфавиту (А-Я)</div>
+          <div class="sort-option" data-sort="name-desc">🔤 По алфавиту (Я-А)</div>
+          <div class="sort-option" data-sort="price-asc">💰 По возрастанию цены</div>
+          <div class="sort-option" data-sort="price-desc">💰 По убыванию цены</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools-bar">
+      <div class="search-row">
+        <input type="text" id="searchInput" class="search-input" placeholder="Поиск по названию или описанию...">
+      </div>
+      <div class="filters-row">
+        <div class="filter-group">
+          <label>Страна производитель</label>
+          <select id="countryFilter"><option value="all">Все страны</option></select>
+        </div>
+        <div class="filter-group">
+          <label>Компания производитель</label>
+          <select id="manufacturerFilter"><option value="all">Все компании</option></select>
+        </div>
+        <div class="filter-group">
+          <label>Форма выпуска</label>
+          <select id="formFilter">
+            <option value="all">Все формы</option>
+            <option value="Таблетки">Таблетки</option>
+            <option value="Капсулы">Капсулы</option>
+            <option value="Капли">Капли</option>
+          </select>
+        </div>
+        <button id="resetFiltersBtn" class="reset-btn">Сбросить фильтры</button>
+      </div>
+    </div>
+
+    <div id="categoriesContainer"></div>
+  </main>
+</div>
+
+<footer>
+  <div class="col address">225101, Беларусь, Жабинка, улица Чайковского, 13</div>
+  <div class="col schedule">Пн-Пт с 9:00 до 18:00, Сб-Вс с 10:00 до 17:00</div>
+  <div class="col empty"></div>
+  <div class="col phone-number">+375 (29) 744-27-50</div>
+</footer>
+<div class="footer-bottom">
+  <p>© 2026 <span style="display:inline-block; font-size:16px;">💊</span> АПТЕКА НаНа. Все права защищены.</p>
+</div>
+
+<script>
+  // ---------------------------- БАЗА ТОВАРОВ (расширена для демонстрации пагинации страницами) ----------------------------
+  const productsDB = [
+    { id: 1, name: "Амоксициллин", description: "Антибиотик пенициллинового ряда", price: 18.50, discountPrice: 15.90, prescription: true, country: "Россия", manufacturer: "Фармстандарт", form: "Таблетки", category: "Антибиотики" },
+    { id: 2, name: "Нурофен", description: "Противовоспалительное, жаропонижающее", price: 12.20, discountPrice: null, prescription: false, country: "Великобритания", manufacturer: "Reckitt", form: "Таблетки", category: "Обезболивающие" },
+    { id: 3, name: "Кагоцел", description: "Противовирусный препарат", price: 22.00, discountPrice: 19.99, prescription: false, country: "Россия", manufacturer: "Ниармедик", form: "Таблетки", category: "Противовирусные" },
+    { id: 4, name: "Омепразол", description: "Ингибитор протонной помпы", price: 9.30, discountPrice: 8.00, prescription: false, country: "Индия", manufacturer: "Dr. Reddy's", form: "Капсулы", category: "Желудочно-кишечные" },
+    { id: 5, name: "Виброцил", description: "Капли от насморка с сосудосуживающим эффектом", price: 8.45, discountPrice: 7.20, prescription: false, country: "Швейцария", manufacturer: "Novartis", form: "Капли", category: "От насморка" },
+    { id: 6, name: "Зодак", description: "Антигистаминные капли", price: 10.90, discountPrice: null, prescription: false, country: "Чехия", manufacturer: "Zentiva", form: "Капли", category: "Антигистаминные" },
+    { id: 7, name: "Линекс", description: "Пробиотик для нормализации микрофлоры", price: 21.40, discountPrice: 18.90, prescription: false, country: "Словения", manufacturer: "Lek", form: "Капсулы", category: "Пробиотики" },
+    { id: 8, name: "Валокордин", description: "Седативные капли", price: 14.70, discountPrice: null, prescription: false, country: "Германия", manufacturer: "Krewel Meuselbach", form: "Капли", category: "Успокаивающие" },
+    { id: 9, name: "Лоперамид", description: "Противодиарейное средство", price: 3.20, discountPrice: null, prescription: false, country: "Россия", manufacturer: "Вертекс", form: "Таблетки", category: "Желудочно-кишечные" },
+    { id: 10, name: "Цетрин", description: "От аллергии", price: 11.90, discountPrice: 10.50, prescription: false, country: "Индия", manufacturer: "Dr. Reddy's", form: "Таблетки", category: "Антигистаминные" },
+    { id: 11, name: "Корвалол", description: "Капли сердечные", price: 6.50, discountPrice: null, prescription: false, country: "Россия", manufacturer: "Фармстандарт", form: "Капли", category: "Сердечно-сосудистые" },
+    { id: 12, name: "Эспумизан", description: "От вздутия и метеоризма", price: 15.80, discountPrice: 14.00, prescription: false, country: "Германия", manufacturer: "Berlin-Chemie", form: "Капсулы", category: "Желудочно-кишечные" },
+    { id: 13, name: "Анальгин", description: "Анальгетик-антипиретик", price: 4.90, discountPrice: null, prescription: false, country: "Россия", manufacturer: "Обновление", form: "Таблетки", category: "Обезболивающие" },
+    { id: 14, name: "Терафлю", description: "От простуды и гриппа", price: 19.20, discountPrice: 17.00, prescription: false, country: "США", manufacturer: "GSK", form: "Таблетки", category: "Противовирусные" },
+    { id: 15, name: "Риностоп", description: "Сосудосуживающие капли", price: 5.30, discountPrice: null, prescription: false, country: "Россия", manufacturer: "Лекко", form: "Капли", category: "От насморка" },
+    { id: 16, name: "Флемоксин Солютаб", description: "Антибиотик, диспергируемые таблетки", price: 27.60, discountPrice: 24.90, prescription: true, country: "Нидерланды", manufacturer: "Astellas", form: "Таблетки", category: "Антибиотики" },
+    { id: 17, name: "Римантадин", description: "Противовирусное", price: 7.40, discountPrice: null, prescription: false, country: "Россия", manufacturer: "Фармстандарт", form: "Таблетки", category: "Противовирусные" },
+    { id: 18, name: "Супрастин", description: "Антигистаминные таблетки", price: 9.20, discountPrice: 8.50, prescription: false, country: "Венгрия", manufacturer: "Egis", form: "Таблетки", category: "Антигистаминные" },
+    { id: 19, name: "Сумамед", description: "Азитромицин, антибиотик широкого спектра", price: 32.50, discountPrice: 29.90, prescription: true, country: "Хорватия", manufacturer: "Pliva", form: "Таблетки", category: "Антибиотики" },
+    { id: 20, name: "Ципрофлоксацин", description: "Фторхинолоновый антибиотик", price: 14.30, discountPrice: null, prescription: true, country: "Россия", manufacturer: "Фармстандарт", form: "Таблетки", category: "Антибиотики" },
+    { id: 21, name: "Кетанов", description: "Сильное обезболивающее", price: 25.40, discountPrice: 22.90, prescription: true, country: "Индия", manufacturer: "Ranbaxy", form: "Таблетки", category: "Обезболивающие" },
+    { id: 22, name: "Пенталгин", description: "Комбинированный анальгетик", price: 17.20, discountPrice: null, prescription: false, country: "Россия", manufacturer: "Фармстандарт", form: "Таблетки", category: "Обезболивающие" },
+    { id: 23, name: "Спазмалгон", description: "Спазмолитик+анальгетик", price: 8.90, discountPrice: null, prescription: false, country: "Болгария", manufacturer: "Софарма", form: "Таблетки", category: "Обезболивающие" },
+    { id: 24, name: "Ибупрофен", description: "НПВС, жаропонижающее", price: 6.70, discountPrice: null, prescription: false, country: "Россия", manufacturer: "Синтез", form: "Таблетки", category: "Обезболивающие" }
+  ];
+
+  let categories = [...new Set(productsDB.map(p => p.category))];
+  let countries = [...new Set(productsDB.map(p => p.country))];
+  let manufacturers = [...new Set(productsDB.map(p => p.manufacturer))];
+
+  // Для каждой категории храним текущую страницу (0-индекс). Страница = набор из PER_PAGE товаров.
+  let currentPageMap = new Map(); // key=category, value=currentPageIndex
+  const PER_PAGE = 3;
+
+  let filters = { country: "all", manufacturer: "all", form: "all", search: "" };
+  let currentSort = "name-asc";
+
+  function initPagination() {
+    categories.forEach(cat => currentPageMap.set(cat, 0));
+  }
+
+  function getFilteredAndSorted() {
+    let filtered = productsDB.filter(p => {
+      if (filters.country !== "all" && p.country !== filters.country) return false;
+      if (filters.manufacturer !== "all" && p.manufacturer !== filters.manufacturer) return false;
+      if (filters.form !== "all" && p.form !== filters.form) return false;
+      if (filters.search.trim()) {
+        const q = filters.search.toLowerCase();
+        return p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q);
+      }
+      return true;
+    });
+    if (currentSort === "price-asc") filtered.sort((a,b) => (a.discountPrice || a.price) - (b.discountPrice || b.price));
+    else if (currentSort === "price-desc") filtered.sort((a,b) => (b.discountPrice || b.price) - (a.discountPrice || a.price));
+    else if (currentSort === "name-asc") filtered.sort((a,b) => a.name.localeCompare(b.name, 'ru'));
+    else if (currentSort === "name-desc") filtered.sort((a,b) => b.name.localeCompare(a.name, 'ru'));
+    return filtered;
+  }
+
+  function groupByCategory() {
+    const filtered = getFilteredAndSorted();
+    const grouped = {};
+    categories.forEach(cat => grouped[cat] = []);
+    filtered.forEach(p => { if (grouped[p.category]) grouped[p.category].push(p); });
+    return grouped;
+  }
+
+  function renderSidebar() {
+    const menu = document.getElementById("category-menu");
+    menu.innerHTML = categories.map(cat => `<li><a data-cat="${cat.replace(/"/g, '&quot;')}">${escapeHtml(cat)}</a></li>`).join("");
+    document.querySelectorAll("#category-menu a").forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const catName = link.getAttribute("data-cat");
+        const el = document.getElementById(`cat-${slugify(catName)}`);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+  }
+
+  function slugify(str) { return str.replace(/\s+/g, '-').replace(/[^\w-]/g, ''); }
+  function escapeHtml(str) { return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
+
+  function getFormEmoji(form) {
+    if (form === "Таблетки") return "💊";
+    if (form === "Капсулы") return "💊🧴";
+    if (form === "Капли") return "💧";
+    return "📦";
+  }
+
+  function createProductCard(product) {
+    const card = document.createElement("div");
+    card.className = "product-card";
+    const finalPrice = product.discountPrice !== null ? product.discountPrice : product.price;
+    const hasDiscount = product.discountPrice !== null && product.discountPrice < product.price;
+    card.innerHTML = `
+      <div class="product-image">${getFormEmoji(product.form)}</div>
+      <div class="product-info">
+        ${product.prescription ? '<div class="prescription-badge">📋 По рецепту</div>' : ''}
+        <h3 class="product-title">${escapeHtml(product.name)}</h3>
+        <p class="product-description">${escapeHtml(product.description)}<br><small>${escapeHtml(product.manufacturer)}, ${escapeHtml(product.country)} | ${product.form}</small></p>
+        <div class="price-wrapper">
+          ${hasDiscount ? `<div class="old-price">${product.price.toFixed(2)} BYN</div>` : ''}
+          <div class="current-price">${finalPrice.toFixed(2)} BYN</div>
+        </div>
+        <div class="product-actions">
+          ${product.prescription ? 
+            `<button class="btn-reserve" onclick="alert('✅ Забронировано: ${escapeHtml(product.name)}.')">📅 Забронировать</button>` :
+            `<button class="btn-cart" onclick="alert('🛒 Добавлено в корзину: ${escapeHtml(product.name)}')">🛒 В корзину</button>`
+          }
+        </div>
+      </div>
+    `;
+    return card;
+  }
+
+  function renderCatalog() {
+    const grouped = groupByCategory();
+    const container = document.getElementById("categoriesContainer");
+    container.innerHTML = "";
+    
+    for (let cat of categories) {
+      const productsOfCat = grouped[cat] || [];
+      const total = productsOfCat.length;
+      const currentPage = currentPageMap.get(cat) || 0;
+      const totalPages = Math.ceil(total / PER_PAGE);
+      
+      // Определяем, показывать ли стрелки (только если товаров больше 3, т.е. totalPages > 1)
+      const showArrows = total > PER_PAGE;
+      
+      // Товары для текущей страницы
+      const startIdx = currentPage * PER_PAGE;
+      const visibleProducts = productsOfCat.slice(startIdx, startIdx + PER_PAGE);
+      
+      // Состояние стрелок
+      const hasPrev = currentPage > 0;
+      const hasNext = currentPage < totalPages - 1;
+      
+      const catId = `cat-${slugify(cat)}`;
+      const section = document.createElement("div");
+      section.className = "category-section";
+      section.id = catId;
+      
+      let leftArrowHtml = '';
+      let rightArrowHtml = '';
+      if (showArrows) {
+        leftArrowHtml = `<div class="nav-arrow prev-arrow ${!hasPrev ? 'disabled' : ''}" data-cat="${escapeHtml(cat)}" data-dir="prev">←</div>`;
+        rightArrowHtml = `<div class="nav-arrow next-arrow ${!hasNext ? 'disabled' : ''}" data-cat="${escapeHtml(cat)}" data-dir="next">→</div>`;
+      }
+      
+      section.innerHTML = `
+        <div class="category-header">
+          <div class="category-title">${escapeHtml(cat)} <span style="font-size:14px; color:#7e8c8d;">(${total} товаров)</span></div>
+        </div>
+        <div class="category-slider">
+          ${leftArrowHtml}
+          <div class="products-grid" id="grid-${catId}"></div>
+          ${rightArrowHtml}
+        </div>
+      `;
+      container.appendChild(section);
+      
+      const grid = section.querySelector(`.products-grid`);
+      visibleProducts.forEach(prod => grid.appendChild(createProductCard(prod)));
+      
+      // Обработчики стрелок
+      const prevBtn = section.querySelector('.prev-arrow');
+      const nextBtn = section.querySelector('.next-arrow');
+      
+      if (prevBtn && !prevBtn.classList.contains('disabled')) {
+        prevBtn.addEventListener('click', () => {
+          let current = currentPageMap.get(cat) || 0;
+          if (current > 0) {
+            currentPageMap.set(cat, current - 1);
+            renderCatalog(); // перерисовываем с новой страницей
+          }
+        });
+      }
+      if (nextBtn && !nextBtn.classList.contains('disabled')) {
+        nextBtn.addEventListener('click', () => {
+          let current = currentPageMap.get(cat) || 0;
+          const totalPagesForCat = Math.ceil(productsOfCat.length / PER_PAGE);
+          if (current + 1 < totalPagesForCat) {
+            currentPageMap.set(cat, current + 1);
+            renderCatalog();
+          }
+        });
+      }
+    }
+  }
+
+  function populateFilters() {
+    const countrySelect = document.getElementById("countryFilter");
+    const manufacturerSelect = document.getElementById("manufacturerFilter");
+    countrySelect.innerHTML = '<option value="all">Все страны</option>' + countries.map(c => `<option value="${c}">${c}</option>`).join('');
+    manufacturerSelect.innerHTML = '<option value="all">Все компании</option>' + manufacturers.map(m => `<option value="${m}">${m}</option>`).join('');
+  }
+
+  function applyFiltersAndSort() {
+    // Сбрасываем страницу на 0 для всех категорий при изменении фильтров/сортировки
+    categories.forEach(cat => currentPageMap.set(cat, 0));
+    renderCatalog();
+    updateSortButtonText();
+  }
+
+  function updateSortButtonText() {
+    const trigger = document.getElementById("sortTrigger");
+    const texts = {
+      'name-asc': 'по алфавиту (А-Я)',
+      'name-desc': 'по алфавиту (Я-А)',
+      'price-asc': 'по возрастанию цены',
+      'price-desc': 'по убыванию цены'
+    };
+    trigger.innerHTML = `Сортировка: ${texts[currentSort] || 'по алфавиту'}`;
+    document.querySelectorAll('.sort-option').forEach(opt => {
+      if (opt.getAttribute('data-sort') === currentSort) opt.classList.add('active');
+      else opt.classList.remove('active');
+    });
+  }
+
+  function bindEvents() {
+    document.getElementById("searchInput").addEventListener("input", (e) => { filters.search = e.target.value; applyFiltersAndSort(); });
+    document.getElementById("countryFilter").addEventListener("change", (e) => { filters.country = e.target.value; applyFiltersAndSort(); });
+    document.getElementById("manufacturerFilter").addEventListener("change", (e) => { filters.manufacturer = e.target.value; applyFiltersAndSort(); });
+    document.getElementById("formFilter").addEventListener("change", (e) => { filters.form = e.target.value; applyFiltersAndSort(); });
+    document.getElementById("resetFiltersBtn").addEventListener("click", () => {
+      filters = { country: "all", manufacturer: "all", form: "all", search: "" };
+      document.getElementById("searchInput").value = "";
+      document.getElementById("countryFilter").value = "all";
+      document.getElementById("manufacturerFilter").value = "all";
+      document.getElementById("formFilter").value = "all";
+      applyFiltersAndSort();
+    });
+    
+    const trigger = document.getElementById("sortTrigger");
+    const menu = document.getElementById("sortMenu");
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menu.classList.toggle("show");
+    });
+    document.addEventListener("click", () => menu.classList.remove("show"));
+    document.querySelectorAll(".sort-option").forEach(opt => {
+      opt.addEventListener("click", (e) => {
+        const sortVal = opt.getAttribute("data-sort");
+        if (sortVal) { currentSort = sortVal; applyFiltersAndSort(); }
+        menu.classList.remove("show");
+      });
+    });
+  }
+
+  function init() {
+    initPagination();
+    populateFilters();
+    renderSidebar();
+    renderCatalog();
+    bindEvents();
+    updateSortButtonText();
+  }
+  init();
+</script>
+</body>
+</html>

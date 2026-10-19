@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Товар | Аптека НаНа</title>
+</head>
+<body>
+
+  <div class="toppanel">
+    <div class="col address">225101, Беларусь, Жабинка, улица Чайковского, 13</div>
+    <div class="col schedule">Пн-Пт с 9:00 до 18:00, Сб-Вс с 10:00 до 17:00</div>
+    <div class="col empty"></div>
+    <div class="col phone-number">+375 (29) 744-27-50</div>
+  </div>
+
+  <header class="topbar">
+    <div class="logo"> АПТЕКА НаНа
+      <div class="tagline">сеть аптек</div>
+    </div>
+    <nav>
+      <div class="nav-group"><a href="index7.html">Главная</a></div>
+      <div class="nav-group"><a href="catalog.html">Каталог</a></div>
+      <div class="nav-group"><a href="stocks.html">Акции</a></div>
+      <div class="nav-group"><a href="about-us.html" class="active">О нас</a></div>
+    </nav>
+  </header>
+
+  <!-- контент страницы товара (шаблон) -->
+  <div class="product-hero">
+    <div class="breadcrumb">
+      <a href="catalog.html">Каталог</a> / <a href="catalog.html#pills">Таблетки</a> / <span style="color:#1f6e43;">Парацетамол-НаНа 500мг</span>
+    </div>
+    <div class="product-main">
+      <!-- левая часть: фото -->
+      <div class="product-gallery">
+        <div class="main-image">
+          <div class="placeholder-img">
+            📦💊
+            <div style="font-size:14px; margin-top:12px;">Изображение товара</div>
+          </div>
+        </div>
+      </div>
+      <!-- правая часть: информация -->
+      <div class="product-info">
+        <div class="product-badge">★ ХИТ ПРОДАЖ</div>
+        <h1 class="product-title">Парацетамол-НаНа 500 мг</h1>
+        <div class="product-short-desc">
+          Эффективное жаропонижающее и болеутоляющее средство. Упаковка 20 таблеток.
+        </div>
+        <div class="price-block">
+          <span class="current-price">12.50 BYN</span>
+          <span class="old-price">15.80 BYN</span>
+          <div style="font-size:13px; margin-top:6px;">Цена действительна при заказе онлайн</div>
+        </div>
+        <div class="prescription-block">
+          <span class="prescription-badge">По рецепту</span>
+          <span>Необходим рецепт врача. Вы можете забронировать и предъявить в аптеке.</span>
+        </div>
+        <div class="action-buttons">
+          <button class="btn btn-primary" id="buyNowBtn">✔ Купить</button>
+          <button class="btn btn-outline" id="reserveBtn">📱 Забронировать</button>
+        </div>
+        <div class="delivery-info">
+          🚚 Доставка по Жабинке — бесплатно от 40 BYN. Самовывоз сегодня — 1-2 часа.<br>
+          💳 Наличные, карты, Белкарт.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- детальная вкладка -->
+  <div class="product-details">
+    <div class="tabs">
+      <div class="tab active" data-tab="desc">Описание</div>
+      <div class="tab" data-tab="chars">Характеристики</div>
+      <div class="tab" data-tab="howto">Способ применения</div>
+    </div>
+    <div class="desc-content" id="tabContent">
+      <p><strong>Парацетамол-НаНа</strong> — нестероидное противовоспалительное средство (анальгетик-антипиретик). Обладает обезболивающим и жаропонижающим действием.</p>
+      <p>Применяется при головной боли, зубной боли, миалгии, невралгии, лихорадочных состояниях при простуде и гриппе.</p>
+      <p>Состав: действующее вещество — парацетамол 500 мг; вспомогательные вещества: крахмал картофельный, стеариновая кислота, желатин.</p>
+    </div>
+  </div>
+
+  <!-- дополнительный блок: похожие товары (мини) -->
+  <div style="max-width:1200px; margin:30px auto 20px; padding:0 40px;">
+    <h3 style="font-size:18px; margin-bottom:16px;">🔍 С этим товаром также смотрят</h3>
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <div style="background:white; border-radius:20px; padding:12px; width:160px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <div style="background:#eef2f6; border-radius:16px; padding:12px;">💊</div>
+        <div style="font-weight:600; margin-top:8px;">Нурофен</div>
+        <div style="font-size:13px;">18.90 BYN</div>
+        <button class="btn" style="margin-top:8px; padding:6px 12px; font-size:12px;">В корзину</button>
+      </div>
+      <div style="background:white; border-radius:20px; padding:12px; width:160px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <div style="background:#eef2f6; border-radius:16px; padding:12px;">🌿</div>
+        <div style="font-weight:600; margin-top:8px;">Цитрамон</div>
+        <div style="font-size:13px;">8.40 BYN</div>
+        <button class="btn" style="margin-top:8px; padding:6px 12px; font-size:12px;">В корзину</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="col address">225101, Беларусь, Жабинка, улица Чайковского, 13</div>
+    <div class="col schedule">Пн-Пт с 9:00 до 18:00, Сб-Вс с 10:00 до 17:00</div>
+    <div class="col empty"></div>
+    <div class="col phone-number">+375 (29) 744-27-50</div>
+  </footer>
+  <div class="footer-bottom">
+    <p>&copy; 2026<img src="css/img/logo.png" alt="" style="height: 20px; vertical-align: middle; margin: 0 5px;"> АПТЕКА НаНа. Все права защищены.</p>
+  </div>
+</body>
+</html>
